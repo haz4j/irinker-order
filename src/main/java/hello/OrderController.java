@@ -6,14 +6,14 @@ import org.springframework.web.bind.annotation.*;
 import javax.transaction.Transactional;
 import java.util.List;
 
-@RestController("/basket")
+@RestController
 @AllArgsConstructor
 @Transactional
 public class OrderController {
 
     private OrderRepository repository;
 
-    @GetMapping("/{userId}")
+    @GetMapping("/basket/{userId}")
     public FullBasket getBasket(@PathVariable long userId) {
         List<Order> orders = repository.findAllByUserId(userId);
         long fullPrice = countFullPrice(orders);
@@ -21,13 +21,13 @@ public class OrderController {
         return FullBasket.builder().basket(orders).fullPrice(fullPrice).build();
     }
 
-    @PostMapping("/{userId}")
+    @PostMapping("/basket/{userId}")
     public long addToBasket(@PathVariable long userId, @RequestBody Order order) {
         order.setUserId(userId);
         Order totalOrder = repository
                 .findByProductIdAndUserId(order.getProductId(), userId)
                 .map(foundOrder -> {
-                            foundOrder.setQuantity(foundOrder.getQuantity() + foundOrder.getQuantity());
+                            foundOrder.setQuantity(foundOrder.getQuantity() + order.getQuantity());
                             return foundOrder;
                         }
                 ).orElse(order);
@@ -38,7 +38,7 @@ public class OrderController {
         return countFullPrice(orders);
     }
 
-    @PostMapping("/{userId}/delete")
+    @PostMapping("/basket/{userId}/delete")
     public long deleteFromBasket(@PathVariable long userId, @RequestBody Order order) {
         Order foundOrder = repository
                 .findByProductIdAndUserId(order.getProductId(), userId)

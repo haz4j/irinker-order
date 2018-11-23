@@ -19,7 +19,6 @@ import javax.persistence.Id;
 public class Order {
 
     @Id
-    @GeneratedValue(strategy=GenerationType.AUTO)
     private long productId;
     private int price;
     private int quantity;
