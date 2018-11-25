@@ -1,6 +1,7 @@
 package hello;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -19,6 +20,7 @@ import javax.persistence.Id;
 public class Order {
 
     @Id
+    @JsonProperty("id_product")
     private long productId;
     private int price;
     private int quantity;
