@@ -13,6 +13,7 @@ public class OrderController {
 
     private OrderRepository repository;
 
+    @CrossOrigin
     @GetMapping("/basket/{userId}")
     public FullBasket getBasket(@PathVariable long userId) {
         List<Order> orders = repository.findAllByUserId(userId);
@@ -21,6 +22,7 @@ public class OrderController {
         return FullBasket.builder().basket(orders).fullPrice(fullPrice).build();
     }
 
+    @CrossOrigin
     @PostMapping("/basket/{userId}")
     public long addToBasket(@PathVariable long userId, @RequestBody Order order) {
         order.setUserId(userId);
@@ -38,6 +40,7 @@ public class OrderController {
         return countFullPrice(orders);
     }
 
+    @CrossOrigin
     @PostMapping("/basket/{userId}/delete")
     public long deleteFromBasket(@PathVariable long userId, @RequestBody Order order) {
         Order foundOrder = repository
