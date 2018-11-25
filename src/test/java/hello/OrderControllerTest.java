@@ -29,7 +29,7 @@ public class OrderControllerTest {
                         .quantity(2)
                         .price(1)
                         .build(),
-                Long.class);
+                FullBasket.class);
     }
 
     @Test
@@ -40,8 +40,8 @@ public class OrderControllerTest {
                         .quantity(1)
                         .price(1)
                         .build(),
-                Long.class)
-                .getBody();
+                FullBasket.class)
+                .getBody().getFullPrice();
         Assert.assertThat(total, Matchers.is(1L));
         Assert.assertThat(repository.findAllByUserId(2).size(), Matchers.is(1));
     }
@@ -61,8 +61,8 @@ public class OrderControllerTest {
                         .quantity(2)
                         .price(2)
                         .build(),
-                Long.class)
-                .getBody();
+                FullBasket.class)
+                .getBody().getFullPrice();
 
         Assert.assertThat(total, Matchers.is(4L));
 
@@ -79,8 +79,8 @@ public class OrderControllerTest {
                         .quantity(3)
                         .price(3)
                         .build(),
-                Long.class)
-                .getBody();
+                FullBasket.class)
+                .getBody().getFullPrice();
 
         Assert.assertThat(total, Matchers.is(11L));
 
@@ -96,8 +96,8 @@ public class OrderControllerTest {
                         .productId(1)
                         .quantity(1)
                         .build(),
-                Long.class)
-                .getBody();
+                FullBasket.class)
+                .getBody().getFullPrice();
 
         Assert.assertThat(total, Matchers.is(1L));
 

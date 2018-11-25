@@ -24,7 +24,7 @@ public class OrderController {
 
     @CrossOrigin
     @PostMapping("/basket/{userId}")
-    public long addToBasket(@PathVariable long userId, @RequestBody Order order) {
+    public FullBasket addToBasket(@PathVariable long userId, @RequestBody Order order) {
         order.setUserId(userId);
         Order totalOrder = repository
                 .findByProductIdAndUserId(order.getProductId(), userId)
@@ -36,13 +36,12 @@ public class OrderController {
 
         repository.save(totalOrder);
 
-        List<Order> orders = repository.findAllByUserId(userId);
-        return countFullPrice(orders);
+        return getBasket(userId);
     }
 
     @CrossOrigin
     @PostMapping("/basket/{userId}/delete")
-    public long deleteFromBasket(@PathVariable long userId, @RequestBody Order order) {
+    public FullBasket deleteFromBasket(@PathVariable long userId, @RequestBody Order order) {
         Order foundOrder = repository
                 .findByProductIdAndUserId(order.getProductId(), userId)
                 .orElseThrow(() -> new RuntimeException("Can't find order with productId " + order.getProductId() + " and userId = " + userId));
@@ -53,8 +52,7 @@ public class OrderController {
             repository.delete(foundOrder);
         }
 
-        List<Order> orders = repository.findAllByUserId(userId);
-        return countFullPrice(orders);
+        return getBasket(userId);
     }
 
     private long countFullPrice(List<Order> orders) {
