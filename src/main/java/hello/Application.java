@@ -31,7 +31,7 @@ public class Application {
 		return new Docket(DocumentationType.SWAGGER_2)
 				.select()
 				.apis(RequestHandlerSelectors.any())
-				.paths(PathSelectors.regex(".*basket.*"))
+				.paths(PathSelectors.any())
 				.build();
 	}
 
